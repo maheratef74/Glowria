@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "Dln0Qelnjf3m9C342I3mFgGqHuZcYKBEj2xsWEcZDCg=",
+  "Source": "Glowria.Api",
+  "BasePath": "_content/Glowria.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

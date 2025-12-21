@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glowria.Api", "Glowria.Api\Glowria.Api.csproj", "{28A78D1A-86A9-4280-AF62-D276FBC7DFE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glowria.Application", "Glowria.Application\Glowria.Application.csproj", "{25CF319E-D7DC-454E-9EDD-2B527DBB2136}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glowria.Domain", "Glowria.Domain\Glowria.Domain.csproj", "{3B05E284-6842-43D8-A4D8-4C4DB9CFDDCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glowria.Infrastructure", "Glowria.Infrastructure\Glowria.Infrastructure.csproj", "{37623D48-32BD-4B1B-AD45-78210DD83A6A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28A78D1A-86A9-4280-AF62-D276FBC7DFE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28A78D1A-86A9-4280-AF62-D276FBC7DFE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28A78D1A-86A9-4280-AF62-D276FBC7DFE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28A78D1A-86A9-4280-AF62-D276FBC7DFE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25CF319E-D7DC-454E-9EDD-2B527DBB2136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25CF319E-D7DC-454E-9EDD-2B527DBB2136}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25CF319E-D7DC-454E-9EDD-2B527DBB2136}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25CF319E-D7DC-454E-9EDD-2B527DBB2136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B05E284-6842-43D8-A4D8-4C4DB9CFDDCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B05E284-6842-43D8-A4D8-4C4DB9CFDDCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B05E284-6842-43D8-A4D8-4C4DB9CFDDCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B05E284-6842-43D8-A4D8-4C4DB9CFDDCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37623D48-32BD-4B1B-AD45-78210DD83A6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37623D48-32BD-4B1B-AD45-78210DD83A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37623D48-32BD-4B1B-AD45-78210DD83A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37623D48-32BD-4B1B-AD45-78210DD83A6A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal
