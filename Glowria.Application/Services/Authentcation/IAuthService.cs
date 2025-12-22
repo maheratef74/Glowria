@@ -1,4 +1,5 @@
 using Glowria.Application.Dtos;
+using Glowria.Application.Shared;
 using Microsoft.AspNetCore.Identity.Data;
 using RegisterRequest = Glowria.Application.Commands.Register.RegisterRequest;
 
@@ -6,6 +7,6 @@ namespace Glowria.Application.Services.Authentcation;
 
 public interface IAuthService
 {
-    Task<AuthResponse> RegisterAsync(RegisterRequest request);
-    Task<AuthResponse> LoginAsync(LoginRequest request);
+    Task<Result<string>> RegisterAsync(RegisterRequest request);
+    Task<Result<string>> LoginAsync(LoginRequest request);
 }

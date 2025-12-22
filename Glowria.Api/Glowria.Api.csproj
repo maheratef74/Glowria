@@ -29,6 +29,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Glowria.Application\Glowria.Application.csproj" />
+      <ProjectReference Include="..\Glowria.Infrastructure\Glowria.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

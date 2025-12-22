@@ -1,2 +1,13 @@
 {
+  "Email already exists": "Email already exists",
+  "Student created successfully": "Student created successfully",
+  "Email is required": "Email is required",
+  "Invalid email address": "Invalid email address",
+  "Password is required": "Password is required",
+  "Password must be at least 8 characters": "Password must be at least 8 characters",
+  "Password must contain an uppercase letter": "Password must contain an uppercase letter",
+  "Password must contain a lowercase letter": "Password must contain a lowercase letter",
+  "Password must contain a number": "Password must contain a number",
+  "Name is required": "Name is required",
+  "Name must be at least 3 characters": "Name must be at least 3 characters"
 }

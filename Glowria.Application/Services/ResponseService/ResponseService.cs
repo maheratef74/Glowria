@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Glowria.Application.Services.ResponseService;
 
-public class ResponsseService : IResponseService
+public class ResponseService : IResponseService
 {
     public IActionResult CreateResponse<T>(Result<T> result)
     {

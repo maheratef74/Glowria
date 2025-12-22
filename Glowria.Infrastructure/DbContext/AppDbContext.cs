@@ -1,13 +1,13 @@
-using Microsoft.EntityFrameworkCore;
 using Identity.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-namespace Identity.Infrastructure;
+namespace Glowria.Infrastructure;
 
 public class AppDbContext : IdentityDbContext<ApplicationUser>
 {
-    public AppDbContext(DbContextOptions<DbContext> options)
+    public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -22,11 +22,8 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         modelBuilder.Entity<IdentityUserLogin<string>>(e => e.ToTable("UserLogins"));
         modelBuilder.Entity<IdentityRoleClaim<string>>(e => e.ToTable("RoleCliams"));
         modelBuilder.Entity<IdentityUserToken<string>>(e => e.ToTable("UserTokens"));
-
-        modelBuilder.Entity<Customer>().ToTable("Customer");
-        modelBuilder.Entity<Admin>().ToTable("Admin");
+        
         
         
     }
-    
 }

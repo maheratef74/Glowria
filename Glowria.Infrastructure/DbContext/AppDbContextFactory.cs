@@ -1,4 +1,3 @@
-using Identity.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +18,7 @@ public class AppDbContextFactory
             .AddJsonFile("appsettings.json")
             .Build();
 
-        var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
+        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
         var connectionString =
             configuration.GetConnectionString("GlowriaDatabase");

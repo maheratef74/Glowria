@@ -1,37 +1,91 @@
+using System.Globalization;
 using System.Text;
+using FluentValidation;
+using Glowria.Application.Commands.Register;
+using Glowria.Application.Mapping;
+using Glowria.Application.Services.Authentcation;
+using Glowria.Application.Services.Localizer;
+using Glowria.Application.Services.ResponseService;
+using Glowria.Application.Services.Seeder;
+using Glowria.Domain.IRepository;
+using Glowria.Infrastructure;
+using Glowria.Infrastructure.Repository;
+using Identity.Domain.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-#region Database Connection
 
-builder.Services.AddDbContext<IdentityDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("GlowriaDatabase")));
-
-#endregion
 
 // Register OpenAPI (official)
 builder.Services.AddOpenApi();
 
-var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+var Configuration = builder.Configuration;
+
+#region register service
+
+builder.Services.AddControllers();
+
+#endregion
+
+#region CORS  
+
+builder.Services.AddCors(options =>
 {
-    // OpenAPI JSON
-    app.MapOpenApi();
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
+#endregion
 
-    // Scalar UI
-    app.MapScalarApiReference(options =>
+#region Database Connection
+
+var connectionString = builder.Configuration.GetConnectionString("GlowriaDatabase");
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options
+        .UseSqlServer(connectionString)
+        .LogTo(Console.WriteLine, LogLevel.Information);
+});
+
+#endregion
+
+#region  injecting interfaces and their implementations
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
+
+builder.Services.AddScoped<IResponseService, ResponseService>();
+builder.Services.AddAutoMapper(typeof(AuthProfile).Assembly);
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<ITokenService, TokenService>();
+
+#endregion
+
+#region Add Identity password seeting
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     {
-        options.Title = "Glowria API";
-        options.Theme = ScalarTheme.Mars;
-    });
-}
+        options.Password.RequireDigit = false;            // No digit required
+        options.Password.RequiredLength = 6;              // Minimum length of 6
+        options.Password.RequireNonAlphanumeric = false;  // No special character required
+        options.Password.RequireUppercase = false;        // No uppercase letter required
+        options.Password.RequireLowercase = false;        // No lowercase letter required
+        options.Password.RequiredUniqueChars = 1;
+    })
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+#endregion
 
 #region Configure JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -48,8 +102,77 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 #endregion
-app.UseHttpsRedirection();
 
+#region Localization
+
+builder.Services.AddLocalization();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSingleton<IStringLocalizerFactory, JSonStringLocalizerFactory>();
+builder.Services.AddMvc()
+    .AddDataAnnotationsLocalization(options =>
+    {
+        options.DataAnnotationLocalizerProvider = (type, factory) =>
+            factory.Create(typeof(JSonStringLocalizerFactory));
+    });
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[]
+    {
+        new CultureInfo("ar-EG"),
+        new CultureInfo("en-US")
+    };
+    options.DefaultRequestCulture = new RequestCulture(culture: supportedCultures[0]);
+    options.SupportedCultures = supportedCultures;
+});
+
+#endregion
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    // OpenAPI JSON
+    app.MapOpenApi();
+
+    // Scalar UI
+    app.MapScalarApiReference(options =>
+    {
+        options.Title = "Glowria API";
+        options.Theme = ScalarTheme.Mars;
+    });
+}
+
+#region RolesSeeder
+
+using var scope = app.Services.CreateScope();
+try
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+    // Seed roles and admin
+    await DefaultRolesAndAdmin.SeedAsync(roleManager, userManager);
+}
+catch (Exception exception)
+{
+    Console.WriteLine(exception);
+    throw;
+}
+#endregion
+
+var supportedCultures = new[] { "ar-EG", "en-US" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures);
+
+app.UseCors("AllowAll");
+app.UseRequestLocalization(localizationOptions);
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();
 
