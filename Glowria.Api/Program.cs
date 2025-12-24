@@ -142,15 +142,15 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.MapOpenApi();
     app.MapScalarApiReference(options =>
     {
         options.Title = "Glowria API";
         options.Theme = ScalarTheme.Mars;
     });
-}
+//}
 
 #region RolesSeeder
 
