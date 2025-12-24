@@ -41,6 +41,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>()
 
 #region CORS  
 
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
